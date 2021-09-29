@@ -39,7 +39,7 @@ export default {
   data () {
     return {
       open: false,
-      products: null,
+      products: [],
       list: [
         { name: 'По умолчанию' },
         { name: 'min' },
@@ -52,7 +52,9 @@ export default {
   created () {
     // здесь я подгружаю товар из LocalStorage
     const arr = localStorage.getItem('products')
-    this.products = JSON.parse(arr)
+    if (arr !== null) {
+      this.products = JSON.parse(arr)
+    }
   },
   methods: {
     // Добавление продукта в массив и LocalStorage
@@ -85,11 +87,6 @@ export default {
     // Здесь я передую параметры для сортировки
     sortByPrice (option) {
       this.sorting(this.products, option)
-    }
-  },
-  watch: {
-    products () {
-      console.log('products')
     }
   }
 }

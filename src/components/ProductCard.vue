@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="img-block">
-        <img :src="product.image" alt="">
+        <img ref="img" :src="product.image" onerror="this.src='/img/404.9b174b80.jpg'" alt="">
     </div>
     <div class="information">
       <h2 class="title">{{ product.name }}</h2>
