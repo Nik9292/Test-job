@@ -8,7 +8,7 @@
       <p class="description">{{ product.description }}</p>
       <span class="price">{{ product.price}} руб.</span>
     </div>
-    <button class="remove">
+    <button class="remove" @click="removeProduct(item)">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g clip-path="url(#clip0)">
           <path d="M10.207 5.79688C9.99998 5.79688 9.83224 5.96462 9.83224 6.17158V13.2535C9.83224 13.4604 9.99998 13.6283 10.207 13.6283C10.4139 13.6283 10.5817 13.4604 10.5817 13.2535V6.17158C10.5817 5.96462 10.4139 5.79688 10.207 5.79688Z" fill="white"/>
@@ -29,11 +29,17 @@
 <script>
 export default {
   props: {
-    data: Object
+    data: Object,
+    item: Number
   },
   data () {
     return {
       product: this.data
+    }
+  },
+  methods: {
+    removeProduct (index) {
+      this.$emit('remove-product', index)
     }
   }
 }
@@ -75,11 +81,29 @@ export default {
         font-size: 16px;
         color: #3F3F3F;
         margin-bottom: 32px;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
       .price {
         font-size: 24px;
         font-weight: 600;
         color: #3F3F3F;
+      }
+    }
+    @keyframes bounce {
+      0%, 20%, 60%, 100% {
+        transform: translateY(0);
+        transform: translateY(0);
+      }
+
+      40% {
+        transform: translateY(-20px);
+        transform: translateY(-20px);
+      }
+
+      80% {
+        transform: translateY(-10px);
+        transform: translateY(-10px);
       }
     }
     .remove {
@@ -95,11 +119,20 @@ export default {
       opacity: 0;
       transition: opacity  5s ease-in-out;
       cursor: pointer;
+      &:hover {
+        animation: bounce 0.8s;
+      }
     }
     &:hover .remove {
       transition: opacity  5s  ease-in-out;
       display: block;
       opacity: 1;
+    }
+    &:hover {
+      box-shadow: 5px 20px 30px rgba(0, 0, 0, 0.04), 0px 6px 10px rgba(0, 0, 0, 0.02);
+      transition: 0.5s ease-in-out;
+      transform: scale(1.2);
+      z-index: 20;
     }
   }
 </style>

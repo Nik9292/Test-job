@@ -17,7 +17,7 @@
           <selected :chosen="selected" :sorting-list="list" @selected-option="sortByPrice"/>
         </div>
         <div class="content">
-          <product-card v-for="(product, item) in products" @click="removeElement(item)" :data="product" :key="product"/>
+          <product-card v-for="(product, item) in products" @remove-product="removeProduct" :item="item" :data="product" :key="product"/>
         </div>
       </div>
       <div class="bg-gray" :class="{'open': open}" @click="open = !open"></div>
@@ -50,18 +50,22 @@ export default {
     }
   },
   created () {
+    // здесь я подгружаю товар из LocalStorage
     const arr = localStorage.getItem('products')
     this.products = JSON.parse(arr)
   },
   methods: {
+    // Добавление продукта в массив и LocalStorage
     addedProducts (data) {
       this.products.push(data[data.length - 1])
       localStorage.setItem('products', JSON.stringify(this.products))
     },
-    removeElement (index) {
-      this.products.splice(index, 1)
+    // удаление продукта из массива и localStorage
+    removeProduct (data) {
+      this.products.splice(data, 1)
       localStorage.setItem('products', JSON.stringify(this.products))
     },
+    // удаление скрола при открытие боковой панели
     opened () {
       this.open = !this.open
       if (this.open) {
@@ -70,6 +74,7 @@ export default {
         document.querySelector('html').style.overflow = 'auto'
       }
     },
+    // Метод сортировки товар по цене
     sorting (arr, option) {
       if (option === 'max') {
         arr.sort((a, b) => +a.price < +b.price ? 1 : -1)
@@ -77,8 +82,14 @@ export default {
         arr.sort((a, b) => +a.price > +b.price ? 1 : -1)
       }
     },
+    // Здесь я передую параметры для сортировки
     sortByPrice (option) {
       this.sorting(this.products, option)
+    }
+  },
+  watch: {
+    products () {
+      console.log('products')
     }
   }
 }

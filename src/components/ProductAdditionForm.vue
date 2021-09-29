@@ -31,10 +31,10 @@ export default {
     return {
       products: [],
       product: {
-        name: 'Наименование товара',
-        description: 'Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк',
-        image: 'https://thumbs.dreamstime.com/b/cosmos-beauty-deep-space-elements-image-furnished-nasa-science-fiction-art-102581846.jpg',
-        price: '10000'
+        name: '',
+        description: '',
+        image: '',
+        price: ''
       },
       validation: {
         invalid: {
@@ -47,6 +47,7 @@ export default {
     }
   },
   methods: {
+    // Здесь я делаю проверку заполнения обязательных полей и создаю массив объектов с данными товаров
     createdProduct () {
       if (this.product.name !== '' && this.product.image !== '' && this.product.price !== '') {
         this.products.push({
